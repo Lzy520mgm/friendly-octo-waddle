@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Tag, message } from 'antd';
-import { groupBy } from 'lodash';
-import moment from 'moment';
+import groupBy from 'lodash/groupBy';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/zh-cn';
+dayjs.extend(relativeTime);
+dayjs.locale('zh-cn');
 import { useModel, useRequest } from 'umi';
 import { getNotices } from '@/services/ant-design-pro/api';
 
@@ -23,7 +27,7 @@ const getNoticeData = (notices: API.NoticeIconItem[]): Record<string, API.Notice
     const newNotice = { ...notice };
 
     if (newNotice.datetime) {
-      newNotice.datetime = moment(notice.datetime as string).fromNow();
+      newNotice.datetime = dayjs(notice.datetime as string).fromNow();
     }
 
     if (newNotice.id) {
